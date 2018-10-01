@@ -8,7 +8,7 @@ namespace WebScraperModularized.data{
         public enum URLType : int{
             APARTMENT_URL = 0,
             PROPERTY_URL = 1
-        };
+        }
 
         public enum URLStatus : int{
             INITIAL = 0,
@@ -17,13 +17,13 @@ namespace WebScraperModularized.data{
             ERROR = -1
         }
 
-        public int Id;
-        public string Url;
+        public int id{get; set;}
+        public string url{get; set;}
 
-        public URLType Urltype;
+        public int urltype{get; set;}
 
-        public Property Property;
+        public Property property{get; set;}
 
-        public URLStatus Status;
+        public int status{get; set;}
     }
 }

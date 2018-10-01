@@ -4,29 +4,30 @@ This class will be used to return property data from the parser.
 namespace WebScraperModularized.data{
     
     public class Property{
-        public int Id;
-        public string Name;
+        public int id{get; set;}
+        
+        public string name{get; set;}
 
-        public int Zipcode;
+        public int zipcode{get; set;}
 
-        public int Minprice;
+        public int minprice{get; set;}
 
-        public int Maxprice;
+        public int maxprice{get; set;}
 
-        public string Description;
+        public string description{get; set;}
 
-        public string Contactno;
+        public string contactno{get; set;}
 
-        public string Contactemail;
+        public string contactemail{get; set;}
 
-        public string Address;
+        public string address{get; set;}
 
-        public PropertyType Propertytype;
+        public PropertyType propertytype{get; set;}
 
-        public int Soundscore;
+        public int soundscore{get; set;}
 
-        public string Soundscoretext;
+        public string soundscoretext{get; set;}
 
-        public bool Reinforcement;
+        public bool reinforcement{get; set;}
     }
 }

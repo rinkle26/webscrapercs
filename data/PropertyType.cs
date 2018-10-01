@@ -11,9 +11,9 @@ namespace WebScraperModularized.data{
 
     public class PropertyType{
 
-        public int Id;
+        public int id{get; set;}
 
-        public string Propertytype;
+        public string propertytype{get; set;}
 
     }
 }

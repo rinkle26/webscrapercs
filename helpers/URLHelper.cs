@@ -15,20 +15,23 @@ using System.Linq;
 
 namespace WebScraperModularized.helpers{
 
-    public class URLHelper {
+    public static class URLHelper {
 
-        private readonly object nextURLLock = new object();//simple lock object
-        private int k = 100;
-        private Queue<URL> myURLQueue = new Queue<URL>();
+        private static readonly object nextURLLock = new object();//simple lock object
+        private static int k = 100;
+        private static Queue<URL> myURLQueue = new Queue<URL>();
+
+        private static bool INITIALIZED = false;
 
         /*
         This method returns the next url in the queue to be parsed.
         Returns null if not URLs are left to be parsed.
         */
-        public URL getNextURL(){
+        public static URL getNextURL(){
             lock(nextURLLock){//make sure that this part of the code is thread safe.
                 if(myURLQueue.Count==0){
-                    int loadedURLCount = loadNextURLS();
+                    int loadedURLCount = loadNextURLS(!INITIALIZED);
+                    INITIALIZED = true;
                     if(loadedURLCount==0) return null;
                 }
                 
@@ -39,24 +42,15 @@ namespace WebScraperModularized.helpers{
         /*
         This method gets the next k URLs from DB and returns the count of URLs loaded.
         */
-        private int loadNextURLS(){
+        private static int loadNextURLS(bool initialLoad){
+            IEnumerable<URL> myUrlEnumerable = DBHelper.getURLSFromDB(k, initialLoad);
 
-            using(IDbConnection db = DBConnectionHelper.getConnection()){
-
-                if(db!=null){
-                    
-                    IEnumerable<URL> myUrlEnumerable = 
-                        db.Query<URL>("Select Id, Url, Urltype, Property from URL where status = @status limit @k",
-                        new {URL.URLStatus.INITIAL, k});
-
-                    foreach(URL url in myUrlEnumerable){
-                        myURLQueue.Enqueue(url);
-                    }
-
-                    return myUrlEnumerable.Count();
-
+            if(myUrlEnumerable!=null && myUrlEnumerable.Count()>0){
+                foreach(URL url in myUrlEnumerable){
+                    myURLQueue.Enqueue(url);
                 }
 
+                return myUrlEnumerable.Count();
             }
 
             return 0;

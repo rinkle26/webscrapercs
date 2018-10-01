@@ -34,17 +34,17 @@ namespace WebScraperModularized.parsers{
                                     URL url = new URL();
                                     HtmlNode paginationDiv = row.SelectSingleNode(".//div[@id=\"paging\"]");
                                     if(paginationDiv!=null){
-                                        url.Url = getNextUrl(row);
-                                        url.Urltype = URL.URLType.PROPERTY_URL;
-                                        url.Status = URL.URLStatus.INITIAL;
+                                        url.url = getNextUrl(row);
+                                        url.urltype = (int)URL.URLType.PROPERTY_URL;
+                                        url.status = (int)URL.URLStatus.INITIAL;
                                     }
                                     else{
-                                        url.Property = getProperty(row);
-                                        url.Url = getUrl(row);
-                                        url.Urltype = URL.URLType.APARTMENT_URL;
-                                        url.Status = URL.URLStatus.INITIAL;
+                                        url.property = getProperty(row);
+                                        url.url = getUrl(row);
+                                        url.urltype = (int)URL.URLType.APARTMENT_URL;
+                                        url.status = (int)URL.URLStatus.INITIAL;
                                     }
-                                    if(url.Url!=null && url.Url.Length!=0){
+                                    if(url.url!=null && url.url.Length!=0){
                                         myList.Add(url);
                                     }
                                 }
@@ -202,7 +202,7 @@ namespace WebScraperModularized.parsers{
                 if(row!=null){
                     HtmlNode proptypeSpan = row.SelectSingleNode(".//span[contains(@class, \"unitLabel\")]");
                     if(proptypeSpan!=null){
-                        propertyType.Propertytype = proptypeSpan.InnerHtml;
+                        propertyType.propertytype = proptypeSpan.InnerHtml;
                     }
                 }
             }
@@ -243,14 +243,14 @@ namespace WebScraperModularized.parsers{
         private Property getProperty(HtmlNode row){
             Property Property = new Property();
 
-            Property.Name = getTitle(row);
-            Property.Address = getAddress(row);
-            Property.Contactemail = getContactemail(row);
-            Property.Contactno = getContactno(row);
-            Property.Maxprice = getMaxPrice(row);
-            Property.Minprice = getMinPrice(row);
-            Property.Propertytype = getPropertyType(row);
-            Property.Reinforcement = getReinforcement(row);
+            Property.name = getTitle(row);
+            Property.address = getAddress(row);
+            Property.contactemail = getContactemail(row);
+            Property.contactno = getContactno(row);
+            Property.maxprice = getMaxPrice(row);
+            Property.minprice = getMinPrice(row);
+            Property.propertytype = getPropertyType(row);
+            Property.reinforcement = getReinforcement(row);
             
             return Property;
         }
