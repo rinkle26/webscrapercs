@@ -13,13 +13,16 @@ using WebScraperModularized.helpers;
 namespace WebScraperModularized.parsers{
     public class PropertyParser{
 
-        private string html;//url this parser will parse in this instance
-        public PropertyParser(string html){//constructor
+        private string html;//html parsed from the URL.
+
+        private URL myUrl;
+        public PropertyParser(string html, URL myUrl){//constructor
             this.html = html;
+            this.myUrl = myUrl;
         }
 
-        public List<URL> parse(){
-            List<URL> myList = new List<URL>();
+        public List<PropertyType> parse(){
+            List<PropertyType> propertyTypeList = new List<PropertyType>();
             try{
                 if(html!=null && html.Length!=0){
                     HtmlDocument htmlDoc = new HtmlDocument();
@@ -30,22 +33,36 @@ namespace WebScraperModularized.parsers{
                         HtmlNode listOfApartments = apartmentsContainer.SelectSingleNode(".//ul");
                         if(listOfApartments!=null){
                             foreach(HtmlNode row in listOfApartments.ChildNodes){
-                                if(row!=null && row.Name == "li"){
-                                    URL url = new URL();
+                                if(row!=null && row.Name == "li" && !getReinforcement(row)){
+                                    PropertyType propertyType = getPropertyType(row);
+                                    Property property = new Property();
+                                    property.url = new URL();
                                     HtmlNode paginationDiv = row.SelectSingleNode(".//div[@id=\"paging\"]");
                                     if(paginationDiv!=null){
-                                        url.url = getNextUrl(row);
-                                        url.urltype = (int)URL.URLType.PROPERTY_URL;
-                                        url.status = (int)URL.URLStatus.INITIAL;
+                                        property.url.url = getNextUrl(row);
+                                        property.url.urltype = (int)URL.URLType.PROPERTY_URL;
+                                        property.url.status = (int)URL.URLStatus.INITIAL;
                                     }
                                     else{
-                                        url.property = getProperty(row);
-                                        url.url = getUrl(row);
-                                        url.urltype = (int)URL.URLType.APARTMENT_URL;
-                                        url.status = (int)URL.URLStatus.INITIAL;
+                                        property = getProperty(row);
+                                        property.url = new URL();
+                                        property.url.url = getUrl(row);
+                                        property.url.urltype = (int)URL.URLType.APARTMENT_URL;
+                                        property.url.status = (int)URL.URLStatus.INITIAL;
                                     }
-                                    if(url.url!=null && url.url.Length!=0){
-                                        myList.Add(url);
+                                    if(property.url.url!=null && property.url.url.Length!=0 && propertyTypeList!=null){
+                                        int propertyTypeIndex = propertyTypeList.FindIndex(x => x.propertytype.Equals(propertyType.propertytype));//check if the proptype is in the list
+                                        if(propertyTypeIndex!=-1){//if item in the list, get it and add our property to existing list
+                                            propertyType = propertyTypeList[propertyTypeIndex];
+                                        }
+
+                                        //set values
+                                        if(propertyType.properties == null) propertyType.properties = new List<Property>();
+
+                                        propertyType.properties.Add(property);
+                                        
+                                        if(propertyTypeIndex==-1) propertyTypeList.Add(propertyType);
+                                        else propertyTypeList[propertyTypeIndex] = propertyType;
                                     }
                                 }
                             }
@@ -56,7 +73,7 @@ namespace WebScraperModularized.parsers{
             catch(Exception e){
                 ExceptionHelper.printException(e);
             }
-            return myList;
+            return propertyTypeList;
         }
 		
 		private string getTitle(HtmlNode row){
@@ -198,6 +215,7 @@ namespace WebScraperModularized.parsers{
 
         private PropertyType getPropertyType(HtmlNode row){
             PropertyType propertyType = new PropertyType();
+            propertyType.propertytype = "";//initialize value so that it is not null
             try{
                 if(row!=null){
                     HtmlNode proptypeSpan = row.SelectSingleNode(".//span[contains(@class, \"unitLabel\")]");
@@ -249,7 +267,6 @@ namespace WebScraperModularized.parsers{
             Property.contactno = getContactno(row);
             Property.maxprice = getMaxPrice(row);
             Property.minprice = getMinPrice(row);
-            Property.propertytype = getPropertyType(row);
             Property.reinforcement = getReinforcement(row);
             
             return Property;

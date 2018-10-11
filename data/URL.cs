@@ -22,8 +22,10 @@ namespace WebScraperModularized.data{
 
         public int urltype{get; set;}
 
-        public Property property{get; set;}
-
         public int status{get; set;}
+
+        public int property {get; set;}
+
+        public string error {get; set;}
     }
 }

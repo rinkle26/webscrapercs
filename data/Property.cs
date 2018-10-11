@@ -8,7 +8,7 @@ namespace WebScraperModularized.data{
         
         public string name{get; set;}
 
-        public int zipcode{get; set;}
+        public string zipcode{get; set;}
 
         public int minprice{get; set;}
 
@@ -22,9 +22,11 @@ namespace WebScraperModularized.data{
 
         public string address{get; set;}
 
-        public PropertyType propertytype{get; set;}
+        public int propertytype{get; set;}
 
         public int soundscore{get; set;}
+
+        public URL url {get; set;}
 
         public string soundscoretext{get; set;}
 

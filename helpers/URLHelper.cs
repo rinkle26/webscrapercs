@@ -18,10 +18,10 @@ namespace WebScraperModularized.helpers{
     public static class URLHelper {
 
         private static readonly object nextURLLock = new object();//simple lock object
-        private static int k = 100;
-        private static Queue<URL> myURLQueue = new Queue<URL>();
+        private static int k = 100;//number of URLs to cache
+        private static Queue<URL> myURLQueue = new Queue<URL>();//queue to be used as cache
 
-        private static bool INITIALIZED = false;
+        private static bool INITIALIZED = false;//variable to tell if this is the first load or not
 
         /*
         This method returns the next url in the queue to be parsed.
@@ -29,13 +29,13 @@ namespace WebScraperModularized.helpers{
         */
         public static URL getNextURL(){
             lock(nextURLLock){//make sure that this part of the code is thread safe.
-                if(myURLQueue.Count==0){
-                    int loadedURLCount = loadNextURLS(!INITIALIZED);
+                if(myURLQueue.Count==0){//check if queue contains any URLs
+                    int loadedURLCount = loadNextURLS(!INITIALIZED);//load new URLs from DB
                     INITIALIZED = true;
                     if(loadedURLCount==0) return null;
                 }
                 
-                return myURLQueue.Dequeue();
+                return myURLQueue.Dequeue();//dequeue one URL from Queue and return
             }
         }
 
@@ -43,14 +43,15 @@ namespace WebScraperModularized.helpers{
         This method gets the next k URLs from DB and returns the count of URLs loaded.
         */
         private static int loadNextURLS(bool initialLoad){
-            IEnumerable<URL> myUrlEnumerable = DBHelper.getURLSFromDB(k, initialLoad);
+            IEnumerable<URL> myUrlEnumerable = DBHelper.getURLSFromDB(k, initialLoad);//load URLs from DB
 
             if(myUrlEnumerable!=null && myUrlEnumerable.Count()>0){
                 foreach(URL url in myUrlEnumerable){
-                    myURLQueue.Enqueue(url);
+                    url.status = (int)URL.URLStatus.RUNNING;
+                    myURLQueue.Enqueue(url);//add url to queue
                 }
-
-                return myUrlEnumerable.Count();
+                if(myURLQueue.Count>0) DBHelper.updateURLs(myURLQueue);//update status to running in DB
+                return myURLQueue.Count();//return the count of number of URLs loaded
             }
 
             return 0;

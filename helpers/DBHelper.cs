@@ -7,6 +7,7 @@ using WebScraperModularized.data;
 using Dapper;
 using Z.Dapper.Plus;
 using System.Data;
+using System;
 
 namespace WebScraperModularized.helpers{
     public class DBHelper{
@@ -17,14 +18,16 @@ namespace WebScraperModularized.helpers{
         public static IEnumerable<URL> getURLSFromDB(int n, bool initialLoad){
             IEnumerable<URL> myUrlEnumerable = null;
 
-            using(IDbConnection db = DBConnectionHelper.getConnection()){
+            using(IDbConnection db = DBConnectionHelper.getConnection()){//get connection
                 if(db!=null){
                     if(!initialLoad){
+                        //if not initial load, we need to get new urls in status INITIAL
                         myUrlEnumerable = 
                                     db.Query<URL>("Select Id, Url, Urltype, Property from URL where status = @status limit @k",
                                     new {status = URL.URLStatus.INITIAL, k = n});
                     }
                     else {
+                        //if initial load, we need to get URLs in RUNNING status as well as they were not parseds last time
                         myUrlEnumerable = 
                                 db.Query<URL>("Select Id, Url, Urltype, Property from URL where status = ANY(@status) limit @k",
                                 new {status = new []{(int)URL.URLStatus.INITIAL, (int)URL.URLStatus.RUNNING}, k = n});
@@ -37,27 +40,37 @@ namespace WebScraperModularized.helpers{
         /*
         Method to insert parsed properties into DB
         */
-        public void insertParsedProperties(List<URL> propertyList){
-            DapperPlusManager.Entity<URL>().Table("url").Identity(x => x.id);
-            DapperPlusManager.Entity<Property>().Table("property").Identity(x => x.id);
-            DapperPlusManager.Entity<PropertyType>().Table("propertytype").Identity(x => x.id);
-
-            if(propertyList!=null && propertyList.Count>0){
-                using(IDbConnection db = DBConnectionHelper.getConnection()){
-                    db.BulkMerge(propertyList);
+        public void insertParsedProperties(List<PropertyType> propertyTypeList){
+            if(propertyTypeList!=null && propertyTypeList.Count>0){
+                using(IDbConnection db = DBConnectionHelper.getConnection()){//get connection
+                    db.BulkMerge(propertyTypeList)//insert the list of property types
+                        .ThenForEach(x => x.properties
+                                            .ForEach(y => y.propertytype = x.id))//set property type id for properties
+                        .ThenBulkMerge(x => x.properties)//insert properties
+                        .ThenForEach(x => x.url.property = x.id)//set property id for urls
+                        .ThenBulkMerge(x => x.url);//insert urls
                 }
             }
         }
 
-        private void insertProperty(Property property){
 
+        /*
+        This method simply merges whatever data is passed to it into DB
+        */
+        public static void updateURLs(Queue<URL> myUrlQueue){
+            using(IDbConnection db = DBConnectionHelper.getConnection()){
+                if(db!=null) db.BulkMerge(myUrlQueue);
+            }
         }
 
-        private void insertURL(URL url){
-
+        /*
+        This method updates the status of url passed to it to DONE.
+        */
+        public static void markURLDone(URL url){
+            using(IDbConnection db = DBConnectionHelper.getConnection()){
+                if(db!=null) db.Execute("update url set status = @status where id=@id", new {status = (int)URL.URLStatus.DONE, id = url.id});
+            }
         }
-
-
 
     }
 }
