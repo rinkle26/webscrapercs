@@ -8,6 +8,7 @@ using Dapper;
 using Z.Dapper.Plus;
 using System.Data;
 using System;
+using WebScraperModularized.wrappers;
 
 namespace WebScraperModularized.helpers{
     public class DBHelper{
@@ -40,7 +41,9 @@ namespace WebScraperModularized.helpers{
         /*
         Method to insert parsed properties into DB
         */
-        public void insertParsedProperties(List<PropertyType> propertyTypeList){
+        public void insertParsedProperties(PropertyData propData){
+            if(propData==null) return;
+            List<PropertyType> propertyTypeList = propData.urlList;
             if(propertyTypeList!=null && propertyTypeList.Count>0){
                 using(IDbConnection db = DBConnectionHelper.getConnection()){//get connection
                     db.BulkMerge(propertyTypeList)//insert the list of property types

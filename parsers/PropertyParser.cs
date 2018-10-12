@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using HtmlAgilityPack;
 using System;
 using WebScraperModularized.helpers;
+using WebScraperModularized.wrappers;
 
 namespace WebScraperModularized.parsers{
     public class PropertyParser{
@@ -16,18 +17,20 @@ namespace WebScraperModularized.parsers{
         private string html;//html parsed from the URL.
 
         private URL myUrl;
+
+        HtmlDocument htmlDoc;
         public PropertyParser(string html, URL myUrl){//constructor
             this.html = html;
             this.myUrl = myUrl;
+            htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(html);
         }
 
-        public List<PropertyType> parse(){
+        public PropertyData parse(){
+            PropertyData propertyData= new PropertyData();
             List<PropertyType> propertyTypeList = new List<PropertyType>();
             try{
                 if(html!=null && html.Length!=0){
-                    HtmlDocument htmlDoc = new HtmlDocument();
-                    htmlDoc.LoadHtml(html);
-
                     HtmlNode apartmentsContainer = htmlDoc.GetElementbyId("placardContainer");
                     if(apartmentsContainer!=null){
                         HtmlNode listOfApartments = apartmentsContainer.SelectSingleNode(".//ul");
@@ -73,7 +76,8 @@ namespace WebScraperModularized.parsers{
             catch(Exception e){
                 ExceptionHelper.printException(e);
             }
-            return propertyTypeList;
+            propertyData.urlList = propertyTypeList;
+            return propertyData;
         }
 		
 		private string getTitle(HtmlNode row){

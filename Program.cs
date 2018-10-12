@@ -5,6 +5,7 @@ using WebScraperModularized.parsers;
 using WebScraperModularized.data;
 using System.Collections.Generic;
 using Z.Dapper.Plus;
+using WebScraperModularized.wrappers;
 
 namespace WebScraperModularized
 {
@@ -34,17 +35,22 @@ namespace WebScraperModularized
                         //if the url is of property type, instantiate property parser
                         PropertyParser parser = new PropertyParser(content, myUrl);
                         
-                        //call the parse method
-                        List<PropertyType> urlList = parser.parse();
+                        //parse the html
+                        PropertyData propData = parser.parse();
                         
                         //insert into DB
-                        new DBHelper().insertParsedProperties(urlList);
+                        new DBHelper().insertParsedProperties(propData);
 
-                        Console.WriteLine("Got list of size: {0}", urlList.Count);
+                        Console.WriteLine("Stored {0} properties", 
+                            (propData!=null && propData.urlList!=null)?propData.urlList.Count:0);
                     }
                     else if(myUrl.urltype == (int)URL.URLType.APARTMENT_URL){
                         
                         //if the url is of apartment type, instantiate apartment parser
+                        ApartmentParser parser = new ApartmentParser(content, myUrl);
+
+                        //call the parse method
+                        ApartmentData apartmentData = parser.parse();
                         Console.WriteLine("Apartment type parser!");
                     }
                     else{
