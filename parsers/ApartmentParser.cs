@@ -9,6 +9,7 @@ using HtmlAgilityPack;
 using System;
 using WebScraperModularized.helpers;
 using WebScraperModularized.wrappers;
+using System.Text.RegularExpressions;
 
 namespace WebScraperModularized.parsers{
     public class ApartmentParser{
@@ -46,6 +47,62 @@ namespace WebScraperModularized.parsers{
         */
         private List<Apartments> getApartments(HtmlNode row){
             List<Apartments> apartments = new List<Apartments>();
+            try{
+                HtmlNodeCollection trCollection = row.SelectNodes(".//tr[contains(@class, \"rentalGridRow\")]");
+                if(trCollection!=null){
+                    //loop across all trs
+                    foreach(HtmlNode tr in trCollection){
+                        if(tr.Name.Equals("tr")){
+                            Apartments apartment = new Apartments();
+
+                            //get num beds
+                            apartment.beds = Util.parseDouble(tr.GetAttributeValue("data-beds","0"), 0);
+                            
+                            //get num baths
+                            apartment.baths = Util.parseDouble(tr.GetAttributeValue("data-baths","0"), 0);
+                            
+                            //get min and max price
+                            HtmlNode rentTd = tr.SelectSingleNode(".//td[contains(@class, \"rent\")]");
+                            if(rentTd!=null){
+                                string rentString = rentTd.InnerHtml;
+                                double[] rents = Util.splitRentString(rentString);
+                                apartment.minprice = rents[0];
+                                apartment.maxprice = rents[1];
+                            }
+                            else{
+                                apartment.minprice = 0;
+                                apartment.maxprice = 0;
+                            }
+
+                            //get area
+                            HtmlNode areaTd = tr.SelectSingleNode(".//td[contains(@class, \"sqft\")]");
+                            if(areaTd!=null){
+                                string areaString = areaTd.InnerHtml;
+                                areaString = areaString.Trim();
+                                areaString = Regex.Replace(areaString, "[^0-9.]", "");
+                                apartment.area = Util.parseDouble(areaString, 0);
+                            }
+                            else{
+                                apartment.area = 0;
+                            }
+
+                            //set property id
+                            apartment.property = myUrl.property;
+
+                            //get Availability
+                            HtmlNode availabilityTd = tr.SelectSingleNode(".//td[contains(@class, \"available\")]");
+                            if(availabilityTd!=null){
+                                apartment.availability = availabilityTd.InnerHtml.Trim();
+                            }
+
+                            apartments.Add(apartment);
+                        }
+                    }
+                }
+            }
+            catch(Exception e){
+                ExceptionHelper.printException(e);
+            }
             return apartments;
         }
 

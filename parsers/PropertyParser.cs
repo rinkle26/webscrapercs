@@ -42,9 +42,13 @@ namespace WebScraperModularized.parsers{
                                     property.url = new URL();
                                     HtmlNode paginationDiv = row.SelectSingleNode(".//div[@id=\"paging\"]");
                                     if(paginationDiv!=null){
-                                        property.url.url = getNextUrl(row);
-                                        property.url.urltype = (int)URL.URLType.PROPERTY_URL;
-                                        property.url.status = (int)URL.URLStatus.INITIAL;
+                                        string url = getNextUrl(row);
+                                        if(Util.isUrlValid(url)){
+                                            property.url.url = url;
+                                            property.url.urltype = (int)URL.URLType.PROPERTY_URL;
+                                            property.url.status = (int)URL.URLStatus.INITIAL;
+                                        }
+                                        else continue;
                                     }
                                     else{
                                         property = getProperty(row);
@@ -165,23 +169,14 @@ namespace WebScraperModularized.parsers{
             return contactno;
         }
 
-        private int getMaxPrice(HtmlNode row){
-            int maxPrice = 0;
+        private double getMaxPrice(HtmlNode row){
+            double maxPrice = 0;
             try{
                 if(row!=null){
                     HtmlNode rentSpan = row.SelectSingleNode(".//span[@class=\"altRentDisplay\"]");
                     if(rentSpan!=null){
                         string rentString = rentSpan.InnerHtml;
-                        if(rentString!=null && rentString.Length!=0){
-                            rentString = rentString.Trim();
-                            rentString = rentString.Replace("$", "");
-                            rentString = rentString.Replace(",", "");
-
-                            if(rentString.Contains(" - ")){
-                                maxPrice = Int32.Parse(rentString.Split(" - ")[1]);
-                            }
-                            else maxPrice = Int32.Parse(rentString.Trim());
-                        }
+                        maxPrice = Util.splitRentString(rentString)[1];
                     }
                 }
             }
@@ -191,23 +186,14 @@ namespace WebScraperModularized.parsers{
             return maxPrice;
         }
 
-        private int getMinPrice(HtmlNode row){
-            int minPrice = 0;
+        private double getMinPrice(HtmlNode row){
+            double minPrice = 0;
             try{
                 if(row!=null){
                     HtmlNode rentSpan = row.SelectSingleNode(".//span[@class=\"altRentDisplay\"]");
                     if(rentSpan!=null){
                         string rentString = rentSpan.InnerHtml;
-                        if(rentString!=null && rentString.Length!=0){
-                            rentString = rentString.Trim();
-                            rentString = rentString.Replace("$", "");
-                            rentString = rentString.Replace(",", "");
-                            
-                            if(rentString.Contains(" - ")){
-                                minPrice = Int32.Parse(rentString.Split(" - ")[0]);
-                            }
-                            else minPrice = Int32.Parse(rentString.Trim());
-                        }
+                        minPrice = Util.splitRentString(rentString)[0];
                     }
                 }
             }

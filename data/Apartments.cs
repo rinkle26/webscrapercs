@@ -8,15 +8,15 @@ namespace WebScraperModularized.data{
 
         public int id {get; set;}
 
-        public int beds {get; set;}
+        public double beds {get; set;}
 
-        public int baths {get; set;}
+        public double baths {get; set;}
         
-        public int minprice {get; set;}
+        public double minprice {get; set;}
         
-        public int maxprice {get; set;}
+        public double maxprice {get; set;}
 
-        public int area {get; set;}
+        public double area {get; set;}
 
         public int property {get; set;}
 

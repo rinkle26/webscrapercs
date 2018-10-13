@@ -10,9 +10,9 @@ namespace WebScraperModularized.data{
 
         public string zipcode{get; set;}
 
-        public int minprice{get; set;}
+        public double minprice{get; set;}
 
-        public int maxprice{get; set;}
+        public double maxprice{get; set;}
 
         public string description{get; set;}
 
