@@ -1,6 +1,8 @@
 # webscrapercs
 Webscraper written in c#
 
+A video demonstration is present here : https://goo.gl/MLignN
+
 ## Prerequisites
 
 ### 1. PostgreSQL
