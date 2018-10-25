@@ -1,7 +1,7 @@
 # webscrapercs
 Webscraper written in c#
 
-A video demonstration is present here : https://goo.gl/MLignN
+A video demonstration is available here : https://goo.gl/MLignN
 
 ## Prerequisites
 
