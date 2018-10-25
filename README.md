@@ -39,6 +39,6 @@ Webscraper written in c#
 
     8. Copy the sample.config to App.config and update the details of your PostgreSQL installation in App.config.
 
-    9. Open a new terminal and execute > dotnet run
+    9. Open a new terminal in VS Code from the terminal menu and execute > dotnet run
 
     10. That's it. You should be able to see the parser logs in the terminal. And new entries would be added in the url, property and propertytype talbles in the database. You can check the new data using PGAdmin III.
