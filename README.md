@@ -7,10 +7,6 @@ Webscraper written in c#
 
     1. Install PostgreSQL 9.6.10 from this link : https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
 
-    2. The installer includes PGAdmin III. Make sure you install it alongside PostgreSQL 
-
-    3. Make sure you are able to connect to the database from PGAdmin III
-
 ### 2. VS Code
 
     1. Install VSCode from this link : https://code.visualstudio.com/
@@ -18,6 +14,12 @@ Webscraper written in c#
 ### 3. Git
 
     1. Install git from this link : https://git-scm.com/downloads
+    
+### 4. PGAdmin III
+
+    1. Download PGAdmin III from this link : https://www.pgadmin.org/download/
+    
+    2. Make sure you are able to connect to the database using PGAdmin III
 
 ## Steps to install:
 
