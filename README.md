@@ -27,7 +27,7 @@ Webscraper written in c#
 
     3. Open PGAdmin III. Create a new database named webscrapercs
 
-    4. Right click on the newly created database and choose restore. PGAdmin III will ask you to select a file. Select webscraperbackup.cs from the newly created folder. Click restore.
+    4. Right click on the newly created database and choose restore. PGAdmin III will ask you to select a file. Select webscrapercs.backup from the newly created folder. Click restore.
 
     5. You should be able to see 11 new tables added to the database
 
