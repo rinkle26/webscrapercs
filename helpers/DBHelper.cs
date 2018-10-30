@@ -31,7 +31,7 @@ namespace WebScraperModularized.helpers{
                         //if initial load, we need to get URLs in RUNNING status as well as they were not parseds last time
                         myUrlEnumerable = 
                                 db.Query<URL>("Select Id, Url, Urltype, Property from URL where status = ANY(@status) limit @k",
-                                new {status = new []{(int)URL.URLStatus.INITIAL, (int)URL.URLStatus.RUNNING,(int)URL.URLStatus.DONE}, k = n});
+                                new {status = new []{(int)URL.URLStatus.INITIAL, (int)URL.URLStatus.RUNNING}, k = n});
                     }
                 }
             }
