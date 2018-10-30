@@ -24,6 +24,7 @@
         <e p="URL.cs" t="Include" />
       </e>
       <e p="helpers" t="Include">
+        <e p="AwsSecretManager.cs" t="Include" />
         <e p="DBConnectionHelper.cs" t="Include" />
         <e p="DBHelper.cs" t="Include" />
         <e p="ExceptionHelper.cs" t="Include" />

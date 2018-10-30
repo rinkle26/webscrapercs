@@ -19,7 +19,7 @@ namespace WebScraperModularized.helpers{
         public static IEnumerable<URL> getURLSFromDB(int n, bool initialLoad){
             IEnumerable<URL> myUrlEnumerable = null;
 
-            using(IDbConnection db = DBConnectionHelper.getConnection()){//get connection
+            using(IDbConnection db = DBConnectionHelper.getConnection("local")){//get connection
                 if(db!=null){
                     if(!initialLoad){
                         //if not initial load, we need to get new urls in status INITIAL
@@ -31,7 +31,7 @@ namespace WebScraperModularized.helpers{
                         //if initial load, we need to get URLs in RUNNING status as well as they were not parseds last time
                         myUrlEnumerable = 
                                 db.Query<URL>("Select Id, Url, Urltype, Property from URL where status = ANY(@status) limit @k",
-                                new {status = new []{(int)URL.URLStatus.INITIAL, (int)URL.URLStatus.RUNNING}, k = n});
+                                new {status = new []{(int)URL.URLStatus.INITIAL, (int)URL.URLStatus.RUNNING,(int)URL.URLStatus.DONE}, k = n});
                     }
                 }
             }
@@ -45,7 +45,7 @@ namespace WebScraperModularized.helpers{
             if(propData==null) return;
             List<PropertyType> propertyTypeList = propData.urlList;
             if(propertyTypeList!=null && propertyTypeList.Count>0){
-                using(IDbConnection db = DBConnectionHelper.getConnection()){//get connection
+                using(IDbConnection db = DBConnectionHelper.getConnection("local")){//get connection
                     db.BulkMerge(propertyTypeList)//insert the list of property types
                         .ThenForEach(x => x.properties
                                             .ForEach(y => y.propertytype = x.id))//set property type id for properties
@@ -61,7 +61,7 @@ namespace WebScraperModularized.helpers{
         This method simply merges whatever data is passed to it into DB
         */
         public static void updateURLs(Queue<URL> myUrlQueue){
-            using(IDbConnection db = DBConnectionHelper.getConnection()){
+            using(IDbConnection db = DBConnectionHelper.getConnection("local")){
                 if(db!=null) db.BulkMerge(myUrlQueue);
             }
         }
@@ -70,7 +70,7 @@ namespace WebScraperModularized.helpers{
         This method updates the status of url passed to it to DONE.
         */
         public static void markURLDone(URL url){
-            using(IDbConnection db = DBConnectionHelper.getConnection()){
+            using(IDbConnection db = DBConnectionHelper.getConnection("local")){
                 if(db!=null) db.Execute("update url set status = @status where id=@id", new {status = (int)URL.URLStatus.DONE, id = url.id});
             }
         }
