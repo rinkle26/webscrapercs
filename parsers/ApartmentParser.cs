@@ -111,11 +111,18 @@ namespace WebScraperModularized.parsers{
             return expensetypes;
         }
 
-        private string getDescription(HtmlNode row){
+        
+        private string getDescription(HtmlNode row)
+        {
             string description = "";
+            if(row != null)
+            {
+             decscription = row.InnerHtml.Trim();
+            }
             return description;
         }
 
+        
         private SoundScore getSoundScore(HtmlNode row){
             SoundScore soundScore = new SoundScore();
 
