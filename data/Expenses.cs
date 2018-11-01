@@ -13,7 +13,9 @@ namespace WebScraperModularized.data{
 
         public int expensetype {get; set;}
 
-        public int cost {get; set;}
+        public double mincost {get; set;}
+
+        public double maxcost {get; set;}
 
         public int property {get; set;}
 

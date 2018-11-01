@@ -11,7 +11,7 @@ namespace WebScraperModularized.data{
         
         public int id {get; set;}
 
-        public int title {get; set;}
+        public string title {get; set;}
 
         public List<Amenity> amenityList;
     }
