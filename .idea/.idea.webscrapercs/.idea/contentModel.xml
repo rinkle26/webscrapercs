@@ -9,6 +9,7 @@
       <e p=".gitignore" t="Include" />
       <e p="App.config" t="Include" />
       <e p="bin" t="ExcludeRecursive" />
+      <e p="ClearDataInDb.sql" t="Include" />
       <e p="data" t="Include">
         <e p="Amenity.cs" t="Include" />
         <e p="Amenitytype.cs" t="Include" />
