@@ -117,7 +117,7 @@ namespace WebScraperModularized.parsers{
             string description = "";
             if(row != null)
             {
-             decscription = row.InnerHtml.Trim();
+             description = row.InnerHtml.Trim();
             }
             return description;
         }
