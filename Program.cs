@@ -39,7 +39,7 @@ namespace WebScraperModularized
                         PropertyData propData = parser.parse();
                         
                         //insert into DB
-                        new DBHelper().insertParsedProperties(propData);
+                        DBHelper.insertParsedProperties(propData);
 
                         Console.WriteLine("Stored {0} properties", 
                             (propData!=null && propData.urlList!=null)?propData.urlList.Count:0);
@@ -51,7 +51,10 @@ namespace WebScraperModularized
 
                         //call the parse method
                         ApartmentData apartmentData = parser.parse();
-                        Console.WriteLine("Apartment type parser!");
+
+                        DBHelper.insertParsedApartment(apartmentData);
+
+                        Console.WriteLine("Stored data for property id {0}!", myUrl.property);
                     }
                     else{
                         Console.WriteLine("Unknown URL Type");

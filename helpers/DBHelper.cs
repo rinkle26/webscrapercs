@@ -41,7 +41,7 @@ namespace WebScraperModularized.helpers{
         /*
         Method to insert parsed properties into DB
         */
-        public void insertParsedProperties(PropertyData propData){
+        public static void insertParsedProperties(PropertyData propData){
             if(propData==null) return;
             List<PropertyType> propertyTypeList = propData.urlList;
             if(propertyTypeList!=null && propertyTypeList.Count>0){
@@ -73,6 +73,10 @@ namespace WebScraperModularized.helpers{
             using(IDbConnection db = DBConnectionHelper.getConnection("local")){
                 if(db!=null) db.Execute("update url set status = @status where id=@id", new {status = (int)URL.URLStatus.DONE, id = url.id});
             }
+        }
+
+        public static void insertParsedApartment(ApartmentData apartmentData){
+            //TODO
         }
 
     }

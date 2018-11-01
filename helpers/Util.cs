@@ -51,7 +51,7 @@ namespace WebScraperModularized.helpers{
                 return output;
             }
             else{
-                ExceptionHelper.printException(new Exception("Unable to parse string " + intString));
+                ExceptionHelper.printException(new Exception("Info(Ignore this): Unable to parse string " + intString));
                 return def;
             }
         }
@@ -63,6 +63,17 @@ namespace WebScraperModularized.helpers{
             Uri uriResult;
             return Uri.TryCreate(url, UriKind.Absolute, out uriResult) 
                 && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+        }
+
+        public static int parseInt(string text, int def){
+            int output = 0;
+            if(int.TryParse(text, out output)){
+                return output;
+            }
+            else{
+                ExceptionHelper.printException(new Exception("Info(Ignore this): Unable to parse string " + text));
+            }
+            return def;
         }
 
 
