@@ -191,13 +191,16 @@ namespace WebScraperModularized.parsers{
             return expensetypes;
         }
 
-        private string getDescription(HtmlNode row){
+        
+        private string getDescription(HtmlNode row)
+        {
             string description = "";
             HtmlNode pNode = row.SelectSingleNode(".//p");
             if(pNode!=null) description = pNode.InnerHtml;
             return description;
         }
 
+        
         private SoundScore getSoundScore(HtmlNode row){
             SoundScore soundScore = new SoundScore();
 

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\s_ven\.Rider2018.2\config\extensions" t="IncludeRecursive" />
+    <e p="C:\Users\s_ven\.Rider2018.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\s_ven\.Rider2018.2\system\resharper-host\Local\Transient\ReSharperHost\v182\SolutionCaches\_webscrapercs.-1025380089.00" t="ExcludeRecursive" />
+    <e p="C:\Users\s_ven\source\repos\booksapplication\booksapplication\node_modules\karma\config.tpl.js" t="ExcludeRecursive" />
+    <e p="C:\Users\s_ven\source\repos\webscrapercs" t="IncludeRecursive">
+      <e p=".gitignore" t="Include" />
+      <e p="App.config" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="data" t="Include">
+        <e p="Amenity.cs" t="Include" />
+        <e p="Amenitytype.cs" t="Include" />
+        <e p="Apartments.cs" t="Include" />
+        <e p="Expenses.cs" t="Include" />
+        <e p="Expensetype.cs" t="Include" />
+        <e p="NTPI.cs" t="Include" />
+        <e p="Property.cs" t="Include" />
+        <e p="PropertyType.cs" t="Include" />
+        <e p="Review.cs" t="Include" />
+        <e p="School.cs" t="Include" />
+        <e p="SoundScore.cs" t="Include" />
+        <e p="URL.cs" t="Include" />
+      </e>
+      <e p="helpers" t="Include">
+        <e p="AwsSecretManager.cs" t="Include" />
+        <e p="DBConnectionHelper.cs" t="Include" />
+        <e p="DBHelper.cs" t="Include" />
+        <e p="ExceptionHelper.cs" t="Include" />
+        <e p="MyConfigurationHelper.cs" t="Include" />
+        <e p="URLHelper.cs" t="Include" />
+        <e p="Util.cs" t="Include" />
+      </e>
+      <e p="obj" t="ExcludeRecursive">
+        <e p="MCD" t="Include">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.1" t="Include">
+              <e p="WebScraperModularized.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="parsers" t="Include">
+        <e p="ApartmentParser.cs" t="Include" />
+        <e p="PropertyParser.cs" t="Include" />
+      </e>
+      <e p="Program.cs" t="Include" />
+      <e p="README.md" t="Include" />
+      <e p="Sample.config" t="Include" />
+      <e p="webscrapercs.backup" t="Include" />
+      <e p="WebScraperModularized.csproj" t="IncludeRecursive" />
+      <e p="wrappers" t="Include">
+        <e p="ApartmentData.cs" t="Include" />
+        <e p="PropertyData.cs" t="Include" />
+      </e>
+    </e>
+  </component>
+</project>

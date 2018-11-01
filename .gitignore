@@ -2,3 +2,4 @@ App.config
 bin/
 obj/
 .vscode/
+.idea/

@@ -14,8 +14,8 @@ namespace WebScraperModularized
         private static readonly HttpClient client = new HttpClient();
 
         static void Main(string[] args)
-        {
-            //do dapper entitiy mapping to map objects to DB tables
+        {   
+           //do dapper entitiy mapping to map objects to DB tables
             DapperPlusManager.Entity<URL>().Table("url").Identity(x => x.id);
             DapperPlusManager.Entity<Property>().Table("property").Identity(x => x.id);
             DapperPlusManager.Entity<PropertyType>().Table("propertytype").Identity(x => x.id);
