@@ -209,6 +209,7 @@ namespace WebScraperModularized.parsers{
 
         private List<Review> getReviews(HtmlNode row){
             List<Review> reviews = new List<Review>();
+            
             return reviews;
         }
 
