@@ -11,9 +11,9 @@ namespace WebScraperModularized.data{
 
         public string name{get; set;}
 
-        public int drivetime {get; set;}//drive time in minutes
+        public double drivetime {get; set;}//drive time in minutes
 
-        public int distance {get; set;}//distance in miles
+        public double distance {get; set;}//distance in miles
 
         public string category {get; set;}
 
