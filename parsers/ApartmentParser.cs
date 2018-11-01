@@ -108,6 +108,112 @@ namespace WebScraperModularized.parsers{
 
         private List<Expensetype> getExpenses(HtmlNode row){
             List<Expensetype> expensetypes = new List<Expensetype>();
+           try{
+               HtmlNodeCollection fees = row.ChildNodes;
+               if(fees != null)
+               {
+                   foreach(HtmlNode typefees in fees)
+                   {
+                       Expensetype newExpenseType = new Expensetype();
+                        if(typefees= fees.SelectSingleNode(".//div[contains(@class, \"monthlyFees\")]"))
+                        {
+                            newExpenseType.id = 0;
+                            newExpenseType.title = "Recurring Fees";
+                        }
+                        else if(typefees= fees.SelectSingleNode(".//div[contains(@class, \"oneTimeFees\")]"))
+                        {
+                            newExpenseType.id = 1;
+                            newExpenseType.title = "One-Time Fees";
+                        }                      
+                        else
+                        {
+                            newExpenseType.id = -1;
+                            newExpenseType.title = "Unknown";
+                        }
+                       foreach(HtmlNode descrip in typefees)
+                       {
+                           Expenses expenses = new Expenses();
+
+                            if(descrip != null)
+                            {
+                                //List<HtmlNode> spans = descrip.childNodes;
+                                var spans = descrip.GetElementsOfType("span");
+
+                                string title1 = spans[0].InnerHtml;
+                                int cost1 = Convert.ToInt32(spans[1].InnerHtml);
+
+                                expenses.title = title1;
+                                expenses.cost = cost1;
+
+                                if(title1 == "Assigned Cover Parking")
+                                {
+                                    expenses.id = 0;
+                                }
+                                else if (title1 == "Storage Fee")
+                                {
+                                    expenses.id = 1;
+                                }
+                                else if (title1 == "Cat Fee")
+                                {
+                                    expenses.id = 2;
+                                }
+                                else if (title1 == "Dog Fee")
+                                {
+                                    expenses.id = 3;
+                                }
+                                else
+                                {
+                                    expenses.id = -1;
+                                    expenses.title = "Unknown";
+                                }
+                            }
+                            //newExpenseType.expenses.add(expenses);
+                            newExpenseType.expensesList.add(expenses);
+                       }
+                       foreach(HtmlNode descripio in typefees)
+                       {
+                           Expenses expensesad = new Expenses();
+
+                            if(descripio != null)
+                            {
+                                List<HtmlNode> spans = descripio.childNodes;
+
+                                /*if(descripio.SelectSingleNode(".//span[contains(text(),'Admin Fee']")!= null)
+                                {
+                                    expensesadd.id = 0;
+                                    expensesadd.title = newExpense.SelectSingleNode(".//span[contains(text(),'Admin Fee']");
+                                    expensesadd.cost = newExpense.SelectSingleNode(".//span[contains(text(), ");
+                                    // Cost could be Expense.cost = Util.Double... (Check Apartments code above)
+
+                                }
+                                else if(descripio.SelectSingleNode(".//span[contains(text(),'Application Fee']")!= null)
+                                {
+                                    expensesadd.id = 1;
+                                    expensesadd.title = newExpense.SelectSingleNode(".//span[contains(text(),'Application Fee']");
+                                }
+                                else if(descripio.SelectSingleNode(".//span[contains(text(),'Cat Deposit']")!= null)
+                                {
+                                    expensesadd.id = 2;
+                                    expenses.title = newExpense.SelectSingleNode(".//span[contains(text(),'Cat Deposit']");
+                                }
+                                else if(descripio.SelectSingleNode(".//span[contains(text(),'Dog Deposit']")!= null)
+                                {
+                                    expensesadd.id = 3;
+                                    expensesadd.title = newExpense.SelectSingleNode(".//span[contains(text(),'Dog Deposit']");
+                                }*/
+
+                            }
+                       }
+                       //expensetypes.add(newExpsense);
+                        newExpenseType.expensesList.add(expensesad);
+                   }
+               }
+
+           }
+           catch(Exception e)
+           {
+               ExceptionHelper.printException(e);
+           }
             return expensetypes;
         }
 
