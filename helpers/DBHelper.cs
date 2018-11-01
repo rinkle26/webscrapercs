@@ -11,15 +11,17 @@ using System;
 using WebScraperModularized.wrappers;
 
 namespace WebScraperModularized.helpers{
-    public class DBHelper{
-        
+    public class DBHelper
+    { 
         /*
         Method to return n URLs from DB.
         */
         public static IEnumerable<URL> getURLSFromDB(int n, bool initialLoad){
             IEnumerable<URL> myUrlEnumerable = null;
 
-            using(IDbConnection db = DBConnectionHelper.getConnection("aws")){//get connection
+            String dbConfig = new MyConfigurationHelper().getDBConnectionConfig();
+
+            using(IDbConnection db = DBConnectionHelper.getConnection(dbConfig)){//get connection
                 if(db!=null){
                     if(!initialLoad){
                         //if not initial load, we need to get new urls in status INITIAL
@@ -42,10 +44,12 @@ namespace WebScraperModularized.helpers{
         Method to insert parsed properties into DB
         */
         public static void insertParsedProperties(PropertyData propData){
+            
             if(propData==null) return;
             List<PropertyType> propertyTypeList = propData.urlList;
             if(propertyTypeList!=null && propertyTypeList.Count>0){
-                using(IDbConnection db = DBConnectionHelper.getConnection("aws")){//get connection
+                String dbConfig = new MyConfigurationHelper().getDBConnectionConfig();
+                using(IDbConnection db = DBConnectionHelper.getConnection(dbConfig)){//get connection
                     db.BulkMerge(propertyTypeList)//insert the list of property types
                         .ThenForEach(x => x.properties
                                             .ForEach(y => y.propertytype = x.id))//set property type id for properties
@@ -61,7 +65,8 @@ namespace WebScraperModularized.helpers{
         This method simply merges whatever data is passed to it into DB
         */
         public static void updateURLs(Queue<URL> myUrlQueue){
-            using(IDbConnection db = DBConnectionHelper.getConnection("aws")){
+            String dbConfig = new MyConfigurationHelper().getDBConnectionConfig();
+            using(IDbConnection db = DBConnectionHelper.getConnection(dbConfig)){
                 if(db!=null) db.BulkMerge(myUrlQueue);
             }
         }
@@ -70,7 +75,8 @@ namespace WebScraperModularized.helpers{
         This method updates the status of url passed to it to DONE.
         */
         public static void markURLDone(URL url){
-            using(IDbConnection db = DBConnectionHelper.getConnection("aws")){
+            String dbConfig = new MyConfigurationHelper().getDBConnectionConfig();
+            using(IDbConnection db = DBConnectionHelper.getConnection(dbConfig)){
                 if(db!=null) db.Execute("update url set status = @status where id=@id", new {status = (int)URL.URLStatus.DONE, id = url.id});
             }
         }
