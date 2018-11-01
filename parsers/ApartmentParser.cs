@@ -149,34 +149,42 @@ namespace WebScraperModularized.parsers{
                                 {
                                     rexpenses.id = 0;
                                 }
-                                else if(title1 == "Assigned Other Parking")
+                                else if (title1 == "Cat Rent")
                                 {
                                     rexpenses.id = 1;
                                 }
-                                else if(title1 == "Assigned Other Cover Parking")
+                                else if (title1 == "Dog Rent")
                                 {
                                     rexpenses.id = 2;
                                 }
-                                else if(title1 == "Unassigned Cover Parking")
+                                else if(title1 == "Assigned Other Parking")
                                 {
                                     rexpenses.id = 3;
                                 }
-                                else if(title1 == "Unassigned Garage Parking")
+                                else if(title1 == "Assigned Covered Parking")
                                 {
                                     rexpenses.id = 4;
                                 }
-                                else if (title1 == "Assigned Cover Parking")
+                                else if(title1 == "Unassigned Covered Parking")
                                 {
                                     rexpenses.id = 5;
                                 }
-                                else if (title1 == "Cat Rent")
+                                else if(title1 == "Unassigned Garage Parking")
                                 {
-                                    rexpenses.id = 3;
+                                    rexpenses.id = 6;
                                 }
-                                else if (title1 == "Dog Rent")
+                                else if(title1 == "Unassigned Surface Lot Parking")
                                 {
-                                    rexpenses.id = 4;
+                                    rexpenses.id = 7;
                                 }
+                                else if (title1 == "Unassigned Other Parking")
+                                {
+                                    rexpenses.id = 8;
+                                }
+                                else if (title1 == "Assigned Garage Parking")
+                                {
+                                    rexpenses.id = 9;
+                                }                                      
                                 else
                                 {
                                     rexpenses.id = -1;
@@ -200,7 +208,35 @@ namespace WebScraperModularized.parsers{
 
                                 oexpenses.title = title2;
                                 oexpenses.cost = cost2;
-
+                                if(title2 == "Admin Fee")
+                                {
+                                    oexpenses.id = 0;
+                                }
+                                else if (title2 == "Cat Fee")
+                                {
+                                    oexpenses.id = 1;
+                                }
+                                else if (title2 == "Dog Fee")
+                                {
+                                    oexpenses.id = 2;
+                                }
+                                else if (title2 == "Application Fee")
+                                {
+                                    oexpenses.id = 3;
+                                }
+                                else if (title2 == "Cat Deposit")
+                                {
+                                    oexpenses.id = 4;
+                                }
+                                else if (title2 == "Dog Deposit")
+                                {
+                                    oexpenses.id = 5;
+                                }
+                                else
+                                {
+                                    oexpenses.id = -1;
+                                    oexpenses.title = "Unknown";
+                                }
                                 /*if(descripio.SelectSingleNode(".//span[contains(text(),'Admin Fee']")!= null)
                                 {
                                     expensesadd.id = 0;
@@ -236,7 +272,7 @@ namespace WebScraperModularized.parsers{
            {
                ExceptionHelper.printException(e);
            }
-            return expensetypes;
+        return expensetypes;
         }
 
         private string getDescription(HtmlNode row){
