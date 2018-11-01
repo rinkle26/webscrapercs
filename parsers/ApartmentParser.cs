@@ -132,7 +132,7 @@ namespace WebScraperModularized.parsers{
                         }
                        foreach(HtmlNode descrip in typefees)
                        {
-                           Expenses expenses = new Expenses();
+                           Expenses rexpenses = new Expenses();
 
                             if(descrip != null)
                             {
@@ -142,41 +142,64 @@ namespace WebScraperModularized.parsers{
                                 string title1 = spans[0].InnerHtml;
                                 int cost1 = Convert.ToInt32(spans[1].InnerHtml);
 
-                                expenses.title = title1;
-                                expenses.cost = cost1;
+                                rexpenses.title = title1;
+                                rexpenses.cost = cost1;
 
-                                if(title1 == "Assigned Cover Parking")
+                                if(title1 == "Storage Fee")
                                 {
-                                    expenses.id = 0;
+                                    rexpenses.id = 0;
                                 }
-                                else if (title1 == "Storage Fee")
+                                else if(title1 == "Assigned Other Parking")
                                 {
-                                    expenses.id = 1;
+                                    rexpenses.id = 1;
                                 }
-                                else if (title1 == "Cat Fee")
+                                else if(title1 == "Assigned Other Cover Parking")
                                 {
-                                    expenses.id = 2;
+                                    rexpenses.id = 2;
                                 }
-                                else if (title1 == "Dog Fee")
+                                else if(title1 == "Unassigned Cover Parking")
                                 {
-                                    expenses.id = 3;
+                                    rexpenses.id = 3;
+                                }
+                                else if(title1 == "Unassigned Garage Parking")
+                                {
+                                    rexpenses.id = 4;
+                                }
+                                else if (title1 == "Assigned Cover Parking")
+                                {
+                                    rexpenses.id = 5;
+                                }
+                                else if (title1 == "Cat Rent")
+                                {
+                                    rexpenses.id = 3;
+                                }
+                                else if (title1 == "Dog Rent")
+                                {
+                                    rexpenses.id = 4;
                                 }
                                 else
                                 {
-                                    expenses.id = -1;
-                                    expenses.title = "Unknown";
+                                    rexpenses.id = -1;
+                                    rexpenses.title = "Unknown";
                                 }
                             }
                             //newExpenseType.expenses.add(expenses);
-                            newExpenseType.expensesList.add(expenses);
+                       newExpenseType.expensesList.add(expenses);
                        }
                        foreach(HtmlNode descripio in typefees)
                        {
-                           Expenses expensesad = new Expenses();
+                           Expenses oexpenses = new Expenses();
 
                             if(descripio != null)
                             {
-                                List<HtmlNode> spans = descripio.childNodes;
+                                //List<HtmlNode> spans1 = descripio.childNodes;
+                                var spans1 = descripio.GetElementsOfType("span");
+
+                                string title2 = spans1[0].InnerHtml;
+                                int cost2 = Convert.ToInt32(spans1[1].InnerHtml);
+
+                                oexpenses.title = title2;
+                                oexpenses.cost = cost2;
 
                                 /*if(descripio.SelectSingleNode(".//span[contains(text(),'Admin Fee']")!= null)
                                 {
@@ -203,12 +226,11 @@ namespace WebScraperModularized.parsers{
                                 }*/
 
                             }
+                       newExpenseType.expensesList.add(oexpenses);
                        }
-                       //expensetypes.add(newExpsense);
-                        newExpenseType.expensesList.add(expensesad);
+                   expensetypes.add(newExpsense);
                    }
                }
-
            }
            catch(Exception e)
            {
