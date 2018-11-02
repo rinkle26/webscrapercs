@@ -44,3 +44,11 @@ A video demonstration is available here : https://goo.gl/MLignN
     9. Open a new terminal in VS Code from the terminal menu and execute > dotnet run
 
     10. That's it. You should be able to see the parser logs in the terminal. And new entries would be added in the url, property and propertytype talbles in the database. You can check the new data using PGAdmin III.
+    
+## Steps to configure the scrapper to save the value in aws
+    
+    1. In the app.config file change the AWSProfilesLocation(location of the credentials file to the location where you have saved the credentials file in your laptop)
+    
+    2. In the app.config file also change the DatabaseConnection property to aws
+    
+    3. If you want to connect to the local database then update the above property to local
